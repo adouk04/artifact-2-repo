@@ -47,8 +47,9 @@ worker.onmessage = (event) => {
   }
 };
 
-worker.onerror = () => {
-  setStatus("The simulator could not start. If you opened this file directly, serve the folder with a web server instead (see the README).", true);
+worker.onerror = (event) => {
+  const why = event && event.message ? ` (${event.message})` : "";
+  setStatus(`The simulator could not start${why}. If you opened this file directly, serve the folder with a web server instead (see the README).`, true);
 };
 
 function callEngine(request) {

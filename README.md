@@ -43,9 +43,9 @@ python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
-It needs an internet connection for Pyodide (about 10 MB, downloaded the first time) and the fonts.
+It needs an internet connection for Pyodide (version 0.28.3, about 10 MB, downloaded the first time) and the fonts.
 
-To put it online for free with GitHub Pages: in the repo, open **Settings, Pages**, choose **Deploy from a branch**, pick `main` and `/ (root)`, and save. The site appears at `https://<your-username>.github.io/<repo-name>/` after a minute or two.
+To put it online for free, the repo includes a GitHub Actions workflow (`.github/workflows/deploy.yml`). On every push to `main` it runs the tests, and if they pass it publishes the web files to GitHub Pages. One-time setup: in the repo, open **Settings, Pages**, and under **Build and deployment** set **Source** to **GitHub Actions** (the workflow also tries to turn this on by itself). Watch the run in the **Actions** tab. The site appears at `https://<your-username>.github.io/<repo-name>/` once it finishes. Only the web files are published, not the tests or tools.
 
 ## Where the data comes from
 
@@ -72,7 +72,7 @@ python3 -m unittest discover -s tests -v
 - **Bad input and the command line:** unknown teams, the same team twice, lowercase codes, random matchups, `--sims` and `--list`.
 - **The data the web page uses:** the JSON for one game and for 1,000 games matches the engine, player lines add up, and bad input gives plain error messages.
 
-Not covered by these tests: how the page looks and loading Pyodide from the internet. Open the page in a browser to check those.
+Not covered by these tests: how the page looks and loading Pyodide from the internet. Open the deployed page in a browser after each deploy to check those.
 
 ## Project files
 
@@ -83,6 +83,7 @@ Not covered by these tests: how the page looks and loading Pyodide from the inte
 | `app.js` | Web page logic: team pickers, buttons, drawing the results |
 | `worker.js` | Loads Pyodide and runs `footballsim.py` off the main thread |
 | `.nojekyll` | Tells GitHub Pages to serve the files as they are |
+| `.github/workflows/deploy.yml` | Runs the tests, then publishes the web page to GitHub Pages |
 | `nfl_teams.json` | All 32 NFL teams, rosters and ratings (generated) |
 | `tools/build_nfl_teams.py` | Raw rosters and stats plus the code that turns them into ratings |
 | `teams.json` | Three fictional teams for testing |

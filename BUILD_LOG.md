@@ -75,3 +75,23 @@ A running record of what I planned and what changed. Newest entries at the botto
   - Loaded the real `index.html` and `app.js` in jsdom with a stand-in worker backed by that same Pyodide. Checked: 32 teams listed, the 24-17 scoreboard, line score, 8 stat rows, player tables, 142-play log, the 1,000-game view, both error messages, 50 random matchups, and a shared link that plays automatically. This script is not in the repo because it needs extra packages.
 - **Not checked:** I have not seen the page in a real browser, so the layout and look are unreviewed, and I could not confirm that the jsDelivr link for Pyodide 314.0.7 loads (the files come from the npm package I tested with). Do both before relying on it.
 - **Next:** Open it in a browser, fix whatever looks wrong, turn on GitHub Pages, and put the live link on the portfolio card.
+
+## Entry 5 — Deploy with GitHub Actions
+
+- **Planned:** Host the web page the same way as my portfolio, with a GitHub Actions workflow.
+- **Changed:** Added `.github/workflows/deploy.yml`. I read my portfolio repo's workflow and kept its triggers, permissions, concurrency group and action versions (`checkout@v4`, `configure-pages@v5` with `enablement: true`, `upload-pages-artifact@v3`, `deploy-pages@v4`). Two differences: a `test` job runs the unit tests first and the deploy waits for it, and only the seven web files are published (not tests or tools), so the site is smaller and cleaner.
+- **How I checked it:** Parsed the YAML (two jobs, `deploy` needs `test`, triggers are push to main and manual run) and copied exactly the files the workflow publishes into a subfolder to confirm the page only needs those files and uses relative paths, so it works under `/<repo-name>/`.
+- **Not checked:** I cannot run GitHub Actions from here, so the workflow has not run. The first push is the real test. If it fails at "Configure Pages", set Settings, Pages, Source to GitHub Actions by hand and re-run it.
+- **Next:** Push, watch the Actions tab, open the live link, and put it on the portfolio card.
+
+## Entry 6 — Fixed the page not starting on the live site
+
+- **What happened:** The deployed page showed "The simulator could not start" and no games would run.
+- **How I found the cause:** I opened the live site in a real browser and read the console: `importScripts` failed on `https://cdn.jsdelivr.net/npm/pyodide@314.0.7/pyodide.js`. The same URL downloaded fine with `fetch`, and the file parsed, but a worker would not load it. Testing other copies in a worker: Pyodide 0.27.7 and 0.28.3 from jsDelivr's official path, 0.27.7 from unpkg and 0.23.4 from cdnjs all loaded. Only the 314.0.7 npm copy failed. I don't know why; it's the newest version and I had only tested it in Node.
+- **Changed:**
+  - `worker.js`: now loads Pyodide 0.28.3 from `https://cdn.jsdelivr.net/pyodide/v0.28.3/full/`, and the download is inside the error handling, so a failure shows a real message instead of a generic one.
+  - `app.js`: the "could not start" message now includes the browser's error text.
+- **How I checked it:** In a real browser, I ran the new `worker.js` code against the live `footballsim.py` and `nfl_teams.json`: it loaded Python, then SEA vs KC at seed 4 gave Seattle 24, matching the command line. Unit tests still pass (40).
+- **Lesson:** My earlier Node-only test could not catch a browser loading problem. I wrote "not checked" for exactly this in Entry 4; it was the thing that broke. Open the deployed page after every deploy.
+- **Next:** Push, reload the live page, and play a game. Then fill in the portfolio card.
+

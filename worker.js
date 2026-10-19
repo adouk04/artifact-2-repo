@@ -2,10 +2,11 @@
    It lives in a worker so the page stays responsive while Python loads and
    while 1,000 games are played. */
 
-const PYODIDE_VERSION = "314.0.7";
-const PYODIDE_BASE = `https://cdn.jsdelivr.net/npm/pyodide@${PYODIDE_VERSION}/`;
-
-importScripts(PYODIDE_BASE + "pyodide.js");
+// Pinned to one release of Pyodide's official build on jsDelivr. (The npm copy
+// of 314.0.7 was rejected by importScripts in a real browser, so do not switch
+// back without testing in one.)
+const PYODIDE_VERSION = "0.28.3";
+const PYODIDE_BASE = `https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/`;
 
 // Thin wrapper around footballsim.run_for_web. Errors come back as JSON so the
 // page can show them in plain words.
@@ -35,6 +36,11 @@ let go = null;
 
 const ready = (async () => {
   postMessage({ type: "status", text: "Loading Python (about 10 MB the first time)…" });
+  try {
+    importScripts(PYODIDE_BASE + "pyodide.js");
+  } catch (err) {
+    throw new Error(`could not download Pyodide from ${PYODIDE_BASE} (${(err && err.message) || err})`);
+  }
   const pyodide = await loadPyodide({ indexURL: PYODIDE_BASE });
 
   postMessage({ type: "status", text: "Loading the game engine…" });

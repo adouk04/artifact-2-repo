@@ -447,47 +447,83 @@ def table(title, header, rows):
     return "\n".join([title, fmt(header), *[fmt(r) for r in rows]])
 
 
-def player_tables(game, abbr):
+def player_lines(game, abbr):
+    """One team's player stat lines as plain data (shared by the CLI and the web page)."""
     team = game.teams[abbr]
     ps = game.pstats[abbr]
-    out = []
+    lines = {"passing": [], "rushing": [], "receiving": [], "kicking": []}
 
     qb = ps[team.qb["name"]]
     if qb["pass_att"] or qb["sacked"]:
-        out.append(
-            table(
-                f"{team.name} - passing",
-                ["Player", "C/ATT", "YDS", "TD", "INT", "SACKED"],
-                [[team.qb["name"], f"{qb['pass_comp']}/{qb['pass_att']}", qb["pass_yds"],
-                  qb["pass_td"], qb["interceptions"], qb["sacked"]]],
-            )
-        )
+        lines["passing"].append({
+            "name": team.qb["name"], "comp": qb["pass_comp"], "att": qb["pass_att"], "yds": qb["pass_yds"],
+            "td": qb["pass_td"], "int": qb["interceptions"], "sacked": qb["sacked"],
+        })
 
-    rushers = sorted((n for n, s in ps.items() if s["rush_att"]), key=lambda n: -ps[n]["rush_yds"])
-    if rushers:
-        rows = []
-        for n in rushers:
-            s = ps[n]
-            rows.append([n, s["rush_att"], s["rush_yds"], f"{s['rush_yds'] / s['rush_att']:.1f}",
-                         s["rush_td"], s["fumbles"]])
-        out.append(table(f"{team.name} - rushing", ["Player", "ATT", "YDS", "AVG", "TD", "FUM"], rows))
+    for n in sorted((n for n, s in ps.items() if s["rush_att"]), key=lambda n: -ps[n]["rush_yds"]):
+        s = ps[n]
+        lines["rushing"].append({
+            "name": n, "att": s["rush_att"], "yds": s["rush_yds"], "td": s["rush_td"], "fum": s["fumbles"],
+        })
 
-    catchers = sorted((n for n, s in ps.items() if s["targets"]), key=lambda n: -ps[n]["rec_yds"])
-    if catchers:
-        rows = [[n, ps[n]["targets"], ps[n]["rec"], ps[n]["rec_yds"], ps[n]["rec_td"]] for n in catchers]
-        out.append(table(f"{team.name} - receiving", ["Player", "TGT", "REC", "YDS", "TD"], rows))
+    for n in sorted((n for n, s in ps.items() if s["targets"]), key=lambda n: -ps[n]["rec_yds"]):
+        s = ps[n]
+        lines["receiving"].append({
+            "name": n, "tgt": s["targets"], "rec": s["rec"], "yds": s["rec_yds"], "td": s["rec_td"],
+        })
 
     k = ps[team.kicker["name"]]
     if k["fg_att"] or k["xp_att"]:
-        out.append(
-            table(
-                f"{team.name} - kicking",
-                ["Player", "FG", "LONG", "XP"],
-                [[team.kicker["name"], f"{k['fg_made']}/{k['fg_att']}", k["fg_long"] or "-",
-                  f"{k['xp_made']}/{k['xp_att']}"]],
-            )
-        )
+        lines["kicking"].append({
+            "name": team.kicker["name"], "fg_made": k["fg_made"], "fg_att": k["fg_att"],
+            "fg_long": k["fg_long"], "xp_made": k["xp_made"], "xp_att": k["xp_att"],
+        })
+    return lines
+
+
+def player_tables(game, abbr):
+    team = game.teams[abbr]
+    ln = player_lines(game, abbr)
+    out = []
+    if ln["passing"]:
+        rows = [[p["name"], f"{p['comp']}/{p['att']}", p["yds"], p["td"], p["int"], p["sacked"]]
+                for p in ln["passing"]]
+        out.append(table(f"{team.name} - passing", ["Player", "C/ATT", "YDS", "TD", "INT", "SACKED"], rows))
+    if ln["rushing"]:
+        rows = [[p["name"], p["att"], p["yds"], f"{p['yds'] / p['att']:.1f}", p["td"], p["fum"]]
+                for p in ln["rushing"]]
+        out.append(table(f"{team.name} - rushing", ["Player", "ATT", "YDS", "AVG", "TD", "FUM"], rows))
+    if ln["receiving"]:
+        rows = [[p["name"], p["tgt"], p["rec"], p["yds"], p["td"]] for p in ln["receiving"]]
+        out.append(table(f"{team.name} - receiving", ["Player", "TGT", "REC", "YDS", "TD"], rows))
+    if ln["kicking"]:
+        rows = [[p["name"], f"{p['fg_made']}/{p['fg_att']}", p["fg_long"] or "-", f"{p['xp_made']}/{p['xp_att']}"]
+                for p in ln["kicking"]]
+        out.append(table(f"{team.name} - kicking", ["Player", "FG", "LONG", "XP"], rows))
     return out
+
+
+def game_to_dict(game, play_by_play=False):
+    """A finished game as plain, JSON-ready data."""
+    teams = []
+    for abbr in game.order:
+        stats = game.totals(abbr)
+        stats["yards_per_play"] = round(stats["total_yds"] / stats["plays"], 1) if stats["plays"] else 0.0
+        teams.append({
+            "abbr": abbr,
+            "name": game.teams[abbr].name,
+            "points": game.points[abbr],
+            "quarters": game.quarters[abbr][: 5 if game.ot else 4],
+            "stats": stats,
+            "players": player_lines(game, abbr),
+        })
+    return {
+        "seed": game.seed,
+        "ot": game.ot,
+        "winner": game.winner(),
+        "teams": teams,
+        "log": list(game.log) if play_by_play else [],
+    }
 
 
 def render_game(game, play_by_play=False):
@@ -528,7 +564,8 @@ def render_game(game, play_by_play=False):
     return "\n".join(lines)
 
 
-def render_sims(teams, a, b, n, seed):
+def sims_to_dict(teams, a, b, n, seed):
+    """Play n games (seeds seed .. seed+n-1) and summarize them as plain, JSON-ready data."""
     wins = Counter()
     pts = Counter()
     pass_y = Counter()
@@ -543,18 +580,61 @@ def render_sims(teams, a, b, n, seed):
             pass_y[k] += t["pass_yds"]
             rush_y[k] += t["rush_yds"]
         scores[(g.points[a], g.points[b])] += 1
+    return {
+        "n": n,
+        "seed": seed,
+        "ties": wins[None],
+        "teams": [
+            {
+                "abbr": k,
+                "name": teams[k].name,
+                "wins": wins[k],
+                "win_pct": 100 * wins[k] / n,
+                "avg_points": pts[k] / n,
+                "avg_pass_yds": pass_y[k] / n,
+                "avg_rush_yds": rush_y[k] / n,
+            }
+            for k in (a, b)
+        ],
+        "common_scores": [{"score": [x, y], "count": c} for (x, y), c in scores.most_common(3)],
+    }
 
-    rows = []
-    for k in (a, b):
-        rows.append([f"{teams[k].name} ({k})", f"{100 * wins[k] / n:.1f}%", f"{pts[k] / n:.1f}",
-                     f"{pass_y[k] / n:.0f}", f"{rush_y[k] / n:.0f}"])
+
+def render_sims(teams, a, b, n, seed):
+    d = sims_to_dict(teams, a, b, n, seed)
+    rows = [
+        [f"{t['name']} ({t['abbr']})", f"{t['win_pct']:.1f}%", f"{t['avg_points']:.1f}",
+         f"{t['avg_pass_yds']:.0f}", f"{t['avg_rush_yds']:.0f}"]
+        for t in d["teams"]
+    ]
     out = [f"{n} simulated games, {a} vs {b} (seeds {seed} to {seed + n - 1})", ""]
     out.append(table("Results", ["Team", "Win %", "Avg pts", "Avg pass yds", "Avg rush yds"], rows))
-    if wins[None]:
-        out.append(f"Ties: {wins[None]} ({100 * wins[None] / n:.1f}%)")
-    common = ", ".join(f"{a} {x}-{y} {b} (x{c})" for (x, y), c in scores.most_common(3))
+    if d["ties"]:
+        out.append(f"Ties: {d['ties']} ({100 * d['ties'] / n:.1f}%)")
+    common = ", ".join(f"{a} {c['score'][0]}-{c['score'][1]} {b} (x{c['count']})" for c in d["common_scores"])
     out += ["", f"Most common final scores: {common}"]
     return "\n".join(out)
+
+
+def run_for_web(teams, a, b, seed=None, play_by_play=False, sims=0):
+    """Single entry point for the web page. Returns a JSON string.
+
+    sims=0 plays one game; sims=N plays N games and returns the summary.
+    Raises ValueError (with a plain message) for bad input.
+    """
+    a, b = str(a).upper(), str(b).upper()
+    for code in (a, b):
+        if code not in teams:
+            raise ValueError(f"Unknown team {code}.")
+    if a == b:
+        raise ValueError("Pick two different teams.")
+    if seed is None:
+        seed = random.randrange(1_000_000)
+    seed = int(seed)
+    if sims and sims > 0:
+        return json.dumps({"kind": "sims", **sims_to_dict(teams, a, b, int(sims), seed)})
+    game = Game(teams[a], teams[b], seed=seed).run()
+    return json.dumps({"kind": "game", **game_to_dict(game, play_by_play)})
 
 
 # ---------------------------------------------------------------------- CLI

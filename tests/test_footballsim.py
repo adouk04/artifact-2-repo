@@ -232,6 +232,67 @@ class NflData(unittest.TestCase):
         self.assertGreater(wins / 200, 0.5, wins / 200)
 
 
+class WebApi(unittest.TestCase):
+    """run_for_web() is what the web page calls; it must return clean JSON."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.teams = fs.load_teams(ROOT / "nfl_teams.json")
+
+    def game(self, **kw):
+        return json.loads(fs.run_for_web(self.teams, "SEA", "KC", seed=4, **kw))
+
+    def test_game_matches_the_engine(self):
+        d = self.game()
+        g = fs.Game(self.teams["SEA"], self.teams["KC"], seed=4).run()
+        self.assertEqual(d["kind"], "game")
+        self.assertEqual({t["abbr"]: t["points"] for t in d["teams"]}, g.points)
+        self.assertEqual(d["winner"], g.winner())
+        for t in d["teams"]:
+            self.assertEqual(sum(t["quarters"]), t["points"])
+            self.assertEqual(len(t["quarters"]), 5 if d["ot"] else 4)
+
+    def test_player_lines_are_complete(self):
+        d = self.game()
+        for t in d["teams"]:
+            self.assertEqual(set(t["players"]), {"passing", "rushing", "receiving", "kicking"})
+            self.assertEqual(len(t["players"]["passing"]), 1)
+            self.assertEqual(
+                sum(p["yds"] for p in t["players"]["receiving"]), t["players"]["passing"][0]["yds"]
+            )
+            self.assertEqual(
+                t["stats"]["total_yds"],
+                sum(p["yds"] for p in t["players"]["rushing"]) + t["stats"]["pass_yds"],
+            )
+
+    def test_play_by_play_only_when_asked(self):
+        self.assertEqual(self.game()["log"], [])
+        self.assertGreater(len(self.game(play_by_play=True)["log"]), 100)
+
+    def test_same_seed_same_result(self):
+        self.assertEqual(fs.run_for_web(self.teams, "SEA", "KC", seed=7), fs.run_for_web(self.teams, "SEA", "KC", seed=7))
+
+    def test_sims_summary(self):
+        s = json.loads(fs.run_for_web(self.teams, "SEA", "KC", seed=1, sims=60))
+        self.assertEqual(s["kind"], "sims")
+        self.assertEqual(s["n"], 60)
+        total_wins = sum(t["wins"] for t in s["teams"]) + s["ties"]
+        self.assertEqual(total_wins, 60)
+        self.assertAlmostEqual(sum(t["win_pct"] for t in s["teams"]) + 100 * s["ties"] / 60, 100.0)
+        self.assertEqual(len(s["common_scores"]), 3)
+
+    def test_codes_are_case_insensitive_and_seed_is_optional(self):
+        d = json.loads(fs.run_for_web(self.teams, "sea", "kc"))
+        self.assertEqual([t["abbr"] for t in d["teams"]], ["SEA", "KC"])
+        self.assertIsInstance(d["seed"], int)
+
+    def test_bad_input_raises_plain_errors(self):
+        with self.assertRaisesRegex(ValueError, "Unknown team XXX"):
+            fs.run_for_web(self.teams, "SEA", "XXX")
+        with self.assertRaisesRegex(ValueError, "two different teams"):
+            fs.run_for_web(self.teams, "SEA", "SEA")
+
+
 class Cli(unittest.TestCase):
     FICTIONAL = ["--teams-file", str(ROOT / "teams.json")]
 

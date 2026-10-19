@@ -1,0 +1,70 @@
+{
+  "teams": {
+    "TAC": {
+      "name": "Tacoma Tides",
+      "pass_block": 72,
+      "run_block": 70,
+      "pass_rush": 71,
+      "pass_defense": 70,
+      "run_defense": 69,
+      "players": {
+        "qb": {"name": "J. Calloway", "rating": 78},
+        "rbs": [
+          {"name": "D. Reyes", "rating": 76},
+          {"name": "M. Okafor", "rating": 68}
+        ],
+        "receivers": [
+          {"name": "T. Nguyen", "pos": "WR", "rating": 82},
+          {"name": "K. Dalton", "pos": "WR", "rating": 74},
+          {"name": "R. Silva", "pos": "WR", "rating": 70},
+          {"name": "B. Hart", "pos": "TE", "rating": 71}
+        ],
+        "kicker": {"name": "S. Moreno", "rating": 80}
+      }
+    },
+    "RNR": {
+      "name": "Rainier Rockets",
+      "pass_block": 68,
+      "run_block": 74,
+      "pass_rush": 73,
+      "pass_defense": 66,
+      "run_defense": 72,
+      "players": {
+        "qb": {"name": "A. Whitfield", "rating": 74},
+        "rbs": [
+          {"name": "C. Banks", "rating": 80},
+          {"name": "J. Ito", "rating": 66}
+        ],
+        "receivers": [
+          {"name": "M. Pryor", "pos": "WR", "rating": 77},
+          {"name": "E. Vance", "pos": "WR", "rating": 72},
+          {"name": "L. Duarte", "pos": "WR", "rating": 68},
+          {"name": "N. Frost", "pos": "TE", "rating": 74}
+        ],
+        "kicker": {"name": "P. Lindqvist", "rating": 76}
+      }
+    },
+    "OLY": {
+      "name": "Olympic Owls",
+      "pass_block": 70,
+      "run_block": 66,
+      "pass_rush": 69,
+      "pass_defense": 74,
+      "run_defense": 66,
+      "players": {
+        "qb": {"name": "H. Marsh", "rating": 72},
+        "rbs": [
+          {"name": "T. Greer", "rating": 72},
+          {"name": "O. Lund", "rating": 65}
+        ],
+        "receivers": [
+          {"name": "V. Castillo", "pos": "WR", "rating": 79},
+          {"name": "F. Ahn", "pos": "WR", "rating": 71},
+          {"name": "G. Moss", "pos": "WR", "rating": 67},
+          {"name": "Z. Patel", "pos": "TE", "rating": 68}
+        ],
+        "kicker": {"name": "R. Okoye", "rating": 72}
+      }
+    }
+  }
+}

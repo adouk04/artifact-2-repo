@@ -2,7 +2,7 @@
 
 > TCSS 490 — Artifact 2: Something You Will Use
 
-A command-line simulator that plays an NFL game between any two of the 32 teams, play by play, and prints the final score, team stats and player stats. Run it a thousand times to see each team's win odds. Built for me, for settling arguments and for fun.
+A simulator that plays an NFL game between any two of the 32 teams, play by play, and shows the final score, team stats and player stats. Run it a thousand times to see each team's win odds. It works as a command-line tool and as a web page. Built for me, for settling arguments and for fun.
 
 ## What it does
 
@@ -32,6 +32,21 @@ Sample (`python3 footballsim.py SEA KC --seed 4`):
 FINAL: Seattle Seahawks 24, Kansas City Chiefs 17
 ```
 
+## Use it in a browser
+
+The web page (`index.html`) runs the same Python engine inside your browser using [Pyodide](https://pyodide.org), so there is only one copy of the game logic. Pick two teams, press **Play one game** or **Play 1,000 games**, and read the scoreboard, team stats and player stats. **Options** has a seed and a play-by-play switch. The page address remembers the game (`?a=SEA&b=KC&seed=4`), so you can send someone a link to replay it.
+
+To try it on your computer, serve the folder (opening `index.html` directly will not work, because browsers block it from loading the data files):
+
+```bash
+python3 -m http.server 8000
+# then open http://localhost:8000
+```
+
+It needs an internet connection for Pyodide (about 10 MB, downloaded the first time) and the fonts.
+
+To put it online for free with GitHub Pages: in the repo, open **Settings, Pages**, choose **Deploy from a branch**, pick `main` and `/ (root)`, and save. The site appears at `https://<your-username>.github.io/<repo-name>/` after a minute or two.
+
 ## Where the data comes from
 
 - **Starters:** QB, two RBs, three WRs, a TE and the kicker for each team, from the fantasynerds.com depth chart pages, checked against Ourlads. I corrected Atlanta's QB to Michael Penix Jr. after the two sources disagreed. Captured October 18, 2026.
@@ -47,7 +62,7 @@ FINAL: Seattle Seahawks 24, Kansas City Chiefs 17
 python3 -m unittest discover -s tests -v
 ```
 
-33 tests cover:
+40 tests cover:
 
 - **Repeatability:** the same seed gives the same game, line for line.
 - **Stats add up** over 150 random games: points equal 6 per touchdown plus extra points plus 3 per field goal, quarter scores sum to the final score, receiving yards equal passing yards, and team yards equal rushing plus net passing.
@@ -55,12 +70,19 @@ python3 -m unittest discover -s tests -v
 - **NFL data:** all 32 teams are present, ratings are centered on 70, no duplicate player names within a team, and every team can play a game.
 - **Ratings matter:** a team boosted by 15 rating points wins well over 62% of games.
 - **Bad input and the command line:** unknown teams, the same team twice, lowercase codes, random matchups, `--sims` and `--list`.
+- **The data the web page uses:** the JSON for one game and for 1,000 games matches the engine, player lines add up, and bad input gives plain error messages.
+
+Not covered by these tests: how the page looks and loading Pyodide from the internet. Open the page in a browser to check those.
 
 ## Project files
 
 | File | Purpose |
 | --- | --- |
-| `footballsim.py` | The simulator and command-line interface |
+| `footballsim.py` | The simulator, command-line interface and the JSON functions the web page uses |
+| `index.html`, `style.css` | The web page and its styling |
+| `app.js` | Web page logic: team pickers, buttons, drawing the results |
+| `worker.js` | Loads Pyodide and runs `footballsim.py` off the main thread |
+| `.nojekyll` | Tells GitHub Pages to serve the files as they are |
 | `nfl_teams.json` | All 32 NFL teams, rosters and ratings (generated) |
 | `tools/build_nfl_teams.py` | Raw rosters and stats plus the code that turns them into ratings |
 | `teams.json` | Three fictional teams for testing |

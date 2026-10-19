@@ -55,3 +55,23 @@ A running record of what I planned and what changed. Newest entries at the botto
   - Checked that the ratings average 70 (range about 56 to 84) and that Josh Allen, Lamar Jackson and Patrick Mahomes come out as the top three quarterbacks.
   - Across 1000 random NFL matchups: about 19 points, 338 yards, 5.4 yards per play, 64% completions and 1.3 turnovers per team. All 33 tests pass.
 - **Next:** Push the repo, fill in the portfolio card. Later: refresh the data weekly and add stat leaders to `--sims`.
+
+## Entry 4 — Added a web page
+
+- **Planned:** A web UI so I can pick teams and see results in a browser, and so Artifact 2 has something to link to.
+- **Decision:** Reuse the Python engine in the browser with Pyodide instead of rewriting it in JavaScript. One copy of the game logic means the 40 tests cover what the page runs. The cost is a first-load download of about 10 MB.
+- **Changed:**
+  - `footballsim.py`: `player_lines`, `game_to_dict`, `sims_to_dict` and `run_for_web` return plain JSON-ready data. The command-line output now builds from the same functions and is unchanged (seed 4, SEA vs KC is still 24-17).
+  - New `index.html`, `style.css`, `app.js` and `worker.js`; `.nojekyll` for GitHub Pages.
+  - 7 new tests for the JSON data (33 to 40 total).
+  - Design: turf green and chalk, with the yellow first-down line as the one accent. After a game the line sweeps to the winner's side of the scoreboard. In the 1,000-game view the line marks an even split. Type is Big Shoulders Display for scores and team names, Atkinson Hyperlegible for everything else.
+  - The page address remembers the game (`?a=SEA&b=KC&seed=4`), so a link replays it.
+- **What broke / what I fixed:**
+  - Passing a missing seed from JavaScript reached Python as a `JsNull` object and crashed. The Python wrapper now takes the seed as text and returns errors as JSON.
+  - I used the CSS class `score` for both the scoreboard numerals and the highlighted scoring plays, so scoring plays would have rendered at 12rem. Renamed the play highlight to `scoring`.
+  - `.visually-hidden` was used but not defined. Added it.
+- **How I checked it:**
+  - Ran `footballsim.py` inside Pyodide under Node: identical results to native Python (SEA 24-17 at seed 4, 40.0% vs 58.5% over 1,000 games). 1,000 games take about 1.7 seconds.
+  - Loaded the real `index.html` and `app.js` in jsdom with a stand-in worker backed by that same Pyodide. Checked: 32 teams listed, the 24-17 scoreboard, line score, 8 stat rows, player tables, 142-play log, the 1,000-game view, both error messages, 50 random matchups, and a shared link that plays automatically. This script is not in the repo because it needs extra packages.
+- **Not checked:** I have not seen the page in a real browser, so the layout and look are unreviewed, and I could not confirm that the jsDelivr link for Pyodide 314.0.7 loads (the files come from the npm package I tested with). Do both before relying on it.
+- **Next:** Open it in a browser, fix whatever looks wrong, turn on GitHub Pages, and put the live link on the portfolio card.

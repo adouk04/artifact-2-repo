@@ -3,7 +3,9 @@
     python3 -m unittest discover -s tests -v
 """
 
+import contextlib
 import copy
+import io
 import json
 import sys
 import unittest
@@ -172,15 +174,104 @@ class Validation(unittest.TestCase):
             fs.Team("BAD", d)
 
 
+def run_cli(*args):
+    """Run main() with output captured; return (exit code, stdout, stderr)."""
+    out, err = io.StringIO(), io.StringIO()
+    with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+        code = fs.main(list(args))
+    return code, out.getvalue(), err.getvalue()
+
+
+class NflData(unittest.TestCase):
+    """The real-team file: all 32 teams, sane ratings, and still realistic."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.teams = fs.load_teams(ROOT / "nfl_teams.json")
+
+    def test_has_all_32_teams(self):
+        self.assertEqual(len(self.teams), 32)
+        self.assertEqual(len({t.name for t in self.teams.values()}), 32)
+
+    def test_ratings_are_centered_on_average(self):
+        for key in fs.RATING_KEYS:
+            mean = sum(getattr(t, key) for t in self.teams.values()) / 32
+            self.assertTrue(68 <= mean <= 72, f"{key} mean {mean}")
+
+    def test_no_duplicate_player_names_within_a_team(self):
+        for t in self.teams.values():
+            names = [t.qb["name"], t.kicker["name"]] + [p["name"] for p in t.rbs + t.receivers]
+            self.assertEqual(len(names), len(set(names)), t.name)
+
+    def test_every_team_can_play_and_stats_add_up(self):
+        abbrs = list(self.teams)
+        for i, a in enumerate(abbrs):
+            b = abbrs[(i + 1) % len(abbrs)]
+            g = fs.Game(self.teams[a], self.teams[b], seed=i).run()
+            for ab in g.order:
+                self.assertEqual(sum(g.quarters[ab]), g.points[ab], f"{a} vs {b}")
+
+    def test_league_wide_averages_stay_realistic(self):
+        import random
+
+        pick = random.Random(0)
+        games = []
+        for seed in range(300):
+            a, b = pick.sample(list(self.teams), 2)
+            games.append(fs.Game(self.teams[a], self.teams[b], seed=seed).run())
+        n = len(games) * 2
+        points = sum(sum(g.points.values()) for g in games) / n
+        turnovers = sum(g.totals(ab)["turnovers"] for g in games for ab in g.order) / n
+        self.assertTrue(16 <= points <= 26, points)
+        self.assertTrue(0.8 <= turnovers <= 2.2, turnovers)
+
+    def test_best_quarterback_team_beats_worst_more_often_than_not(self):
+        wins = sum(
+            fs.Game(self.teams["BUF"], self.teams["ARI"], seed=s).run().winner() == "BUF" for s in range(200)
+        )
+        self.assertGreater(wins / 200, 0.5, wins / 200)
+
+
 class Cli(unittest.TestCase):
+    FICTIONAL = ["--teams-file", str(ROOT / "teams.json")]
+
     def test_unknown_team_returns_error(self):
-        self.assertEqual(fs.main(["TAC", "NOPE"]), 2)
+        code, _, err = run_cli("SEA", "NOPE")
+        self.assertEqual(code, 2)
+        self.assertIn("Unknown team NOPE", err)
 
     def test_same_team_twice_returns_error(self):
-        self.assertEqual(fs.main(["TAC", "TAC"]), 2)
+        self.assertEqual(run_cli("SEA", "SEA")[0], 2)
 
-    def test_single_game_runs(self):
-        self.assertEqual(fs.main(["TAC", "RNR", "--seed", "5"]), 0)
+    def test_nfl_game_runs_by_default(self):
+        code, out, _ = run_cli("SEA", "KC", "--seed", "5")
+        self.assertEqual(code, 0)
+        self.assertIn("Seattle Seahawks", out)
+        self.assertIn("Kansas City Chiefs", out)
+
+    def test_team_codes_are_case_insensitive(self):
+        self.assertEqual(run_cli("sea", "kc", "--seed", "5")[0], 0)
+
+    def test_random_matchup_when_no_teams_given(self):
+        code, out, _ = run_cli("--seed", "9")
+        self.assertEqual(code, 0)
+        self.assertIn("FINAL:", out)
+
+    def test_same_seed_prints_same_game(self):
+        self.assertEqual(run_cli("SEA", "KC", "--seed", "5")[1], run_cli("SEA", "KC", "--seed", "5")[1])
+
+    def test_sims_mode(self):
+        code, out, _ = run_cli("SEA", "KC", "--sims", "20", "--seed", "1")
+        self.assertEqual(code, 0)
+        self.assertIn("20 simulated games", out)
+
+    def test_list_shows_32_teams(self):
+        code, out, _ = run_cli("--list")
+        self.assertEqual(code, 0)
+        self.assertEqual(len(out.strip().splitlines()), 32)
+
+    def test_fictional_teams_file_still_works(self):
+        self.assertEqual(run_cli("TAC", "RNR", "--seed", "5", *self.FICTIONAL)[0], 0)
 
 
 if __name__ == "__main__":

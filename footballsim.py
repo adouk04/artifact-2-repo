@@ -3,11 +3,13 @@
 
 Simulates an American football game play by play, then prints the final
 score, team stats and player stats. Run many games with --sims to see win
-odds and average scores. Teams and player ratings live in teams.json.
+odds and average scores. All 32 NFL teams and their ratings live in
+nfl_teams.json (built by tools/build_nfl_teams.py); teams.json has fictional teams.
 
-    python3 footballsim.py TAC RNR
-    python3 footballsim.py TAC RNR --seed 42 --play-by-play
-    python3 footballsim.py TAC RNR --sims 1000
+    python3 footballsim.py SEA KC
+    python3 footballsim.py SEA KC --seed 42 --play-by-play
+    python3 footballsim.py SEA KC --sims 1000
+    python3 footballsim.py                    # random NFL matchup
 """
 
 import argparse
@@ -560,8 +562,9 @@ def render_sims(teams, a, b, n, seed):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Simulate a football game: final score and player stats.")
-    ap.add_argument("teams", nargs="*", help="two team abbreviations, e.g. TAC RNR (default: first two in the file)")
-    ap.add_argument("--teams-file", default=str(Path(__file__).with_name("teams.json")))
+    ap.add_argument("teams", nargs="*", help="two team abbreviations, e.g. SEA KC (default: a random matchup)")
+    ap.add_argument("--teams-file", default=str(Path(__file__).with_name("nfl_teams.json")),
+                    help="teams file (default: nfl_teams.json; teams.json has fictional teams)")
     ap.add_argument("--seed", type=int, help="seed for a repeatable game")
     ap.add_argument("--sims", type=int, default=0, help="simulate N games and show win odds and averages")
     ap.add_argument("--play-by-play", action="store_true", help="print every play")
@@ -579,17 +582,18 @@ def main(argv=None):
             print(f"{abbr}  {t.name}  (QB {t.qb['name']} {t.qb['rating']})")
         return 0
 
-    picks = [x.upper() for x in args.teams] or list(teams)[:2]
+    seed = args.seed if args.seed is not None else random.randrange(1_000_000)
+    picks = [x.upper() for x in args.teams]
+    if not picks:
+        picks = random.Random(seed).sample(list(teams), 2)
     if len(picks) != 2 or picks[0] == picks[1]:
-        print("Pick two different teams, e.g.: footballsim.py TAC RNR", file=sys.stderr)
+        print("Pick two different teams, e.g.: footballsim.py SEA KC", file=sys.stderr)
         return 2
     for p in picks:
         if p not in teams:
             print(f"Unknown team {p}. Available: {', '.join(teams)}", file=sys.stderr)
             return 2
     a, b = picks
-
-    seed = args.seed if args.seed is not None else random.randrange(1_000_000)
     if args.sims > 0:
         print(render_sims(teams, a, b, args.sims, seed))
     else:

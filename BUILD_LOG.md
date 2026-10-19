@@ -31,3 +31,27 @@ A running record of what I planned and what changed. Newest entries at the botto
   - Found an overtime game (seed 11) and read its last plays.
   - `python3 -m unittest discover -s tests`: 21 tests pass. They check that points equal touchdowns, extra points and field goals, quarter scores sum to the final, receiving yards equal passing yards, the same seed gives the same game, a boosted team wins over 62% of games, and the realism ranges hold.
 - **Next:** Fill in the portfolio card, push the repo. Later: stat leaders in `--sims`, penalties, a season mode.
+
+## Entry 3 — Plan change: real NFL teams
+
+- **Planned:** I changed the plan from fictional teams to all 32 NFL teams with real starters. "Real NFL data" is now in scope; the other out-of-scope items stand.
+- **Changed:**
+  - `nfl_teams.json` (generated) and `tools/build_nfl_teams.py`, which holds the raw roster and stat tables and the rating formulas, so the ratings can be reproduced.
+  - `footballsim.py` now defaults to the NFL file. With no teams given it picks a random matchup. `teams.json` is still available with `--teams-file`.
+  - Tests went from 21 to 33: NFL file has 32 teams, ratings centered on 70, no duplicate names, every team can play, league-wide realism holds, and more command-line cases.
+- **Where the data came from:**
+  - Starters from fantasynerds.com depth chart pages (one fetch per team), checked against Ourlads.
+  - Team stats from NFL.com 2026 regular-season pages: offense and defense, passing and rushing, captured October 18, 2026.
+  - Team ratings are z-scores against the league (70 + 6 per standard deviation). Player ratings are my own unofficial estimates for well-known players, with a small nudge from team efficiency.
+- **What broke / what I found:**
+  - Ourlads loaded only 4 of 32 teams, so it could not be the main source.
+  - Jacksonville's page returned nothing at first because I used the wrong URL code (`JAX`); `JAC` worked.
+  - Atlanta's QB differed between sources (Tua Tagovailoa vs Michael Penix Jr.). I checked a September 21, 2026 report and the Ourlads chart from October 17, which both say Penix, and used him.
+  - NFL.com's sack page did not match its passing pages for some teams, so I ignored it and used sacks taken and made from the passing pages.
+  - NFL.com does not show games played, so the ratings use rates (yards per attempt, sack rate) rather than totals.
+- **Limits I know about:** the stats are about five games, rosters change weekly, a few numbers were read off summarized web pages and I did not independently re-check each one, and the player ratings are opinion. The README says so.
+- **How I checked it:**
+  - Ran `SEA KC`: one game, then 1000 simulated games. Kansas City won 58.5%, which fits its strong defensive numbers.
+  - Checked that the ratings average 70 (range about 56 to 84) and that Josh Allen, Lamar Jackson and Patrick Mahomes come out as the top three quarterbacks.
+  - Across 1000 random NFL matchups: about 19 points, 338 yards, 5.4 yards per play, 64% completions and 1.3 turnovers per team. All 33 tests pass.
+- **Next:** Push the repo, fill in the portfolio card. Later: refresh the data weekly and add stat leaders to `--sims`.

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NFL game simulator</title>
+  <meta name="description" content="Pick two NFL teams and simulate a full game: final score, team stats and player stats. Or play 1,000 games and see the odds.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Big+Shoulders+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#result">Skip to results</a>
+
+  <header class="hero">
+    <div class="ruler" aria-hidden="true">
+      <span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>40</span><span>30</span><span>20</span><span>10</span>
+    </div>
+    <div class="wrap hero-inner">
+      <h1>NFL game simulator</h1>
+      <p class="lede">Pick two teams and play out a full game, or play 1,000 games and see who comes out ahead.</p>
+
+      <form id="controls" autocomplete="off">
+        <div class="matchup">
+          <label>
+            <span>Team 1</span>
+            <select id="team-a" disabled></select>
+          </label>
+          <span class="vs" aria-hidden="true">vs</span>
+          <label>
+            <span>Team 2</span>
+            <select id="team-b" disabled></select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="submit" id="play-one" class="btn btn-primary" disabled>Play one game</button>
+          <button type="button" id="play-many" class="btn btn-secondary" disabled>Play 1,000 games</button>
+          <button type="button" id="random" class="btn btn-secondary" disabled>Random matchup</button>
+        </div>
+
+        <details class="options">
+          <summary>Options</summary>
+          <div class="options-body">
+            <label class="field">
+              <span>Seed (optional)</span>
+              <input id="seed" type="text" inputmode="numeric" placeholder="Leave blank for a new game each time">
+            </label>
+            <label class="check">
+              <input id="pbp" type="checkbox">
+              <span>Show every play</span>
+            </label>
+          </div>
+        </details>
+      </form>
+
+      <p id="status" class="status" role="status">Loading the team list&hellip;</p>
+    </div>
+  </header>
+
+  <main id="result" class="wrap" tabindex="-1">
+    <noscript><p class="notice">This page needs JavaScript to run the simulator.</p></noscript>
+    <p class="empty" id="empty">Choose two teams and press Play one game. The first run downloads the Python engine (about 10 MB), so give it a few seconds.</p>
+  </main>
+
+  <footer class="wrap site-footer">
+    <p>Starters come from public depth charts and team ratings from NFL.com&rsquo;s 2026 stats, both captured October 18, 2026. Player ratings are unofficial estimates. This is a simulation for fun and does not predict real games.</p>
+    <p>The game engine is the same Python program that runs on the command line (<code>footballsim.py</code>), running in your browser.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

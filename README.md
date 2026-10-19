@@ -7,8 +7,9 @@ A simulator that plays an NFL game between any two of the 32 teams, play by play
 ## What it does
 
 - Simulates a full game: four quarters, downs and field position, runs, passes, sacks, interceptions, fumbles, punts, field goals, extra points, a two-minute drill, and sudden-death overtime for ties.
-- Prints the **final score** with a line score by quarter, **team stats** (yards, plays, first downs, turnovers, sacks) and **player stats** (passing, rushing, receiving, kicking) for the real starters.
-- `--sims N` runs N games and shows win percentage, average points, average yards and the most common final scores.
+- Prints the **final score** with a line score by quarter, **team stats** (yards, plays, first downs, turnovers, sacks) and **player stats** (passing, rushing, receiving, kicking) for the real starters, plus **fantasy points** for every player who played.
+- `--sims N` runs N games and shows win percentage, average points, average yards and the most common final scores. The web page's 1,000-game view also shows each player's average fantasy points.
+- **Fantasy scoring (PPR):** 1 point per catch, 0.1 per rushing or receiving yard, 0.04 per passing yard, 6 per touchdown (4 for a passing touchdown), -2 per interception or lost fumble, 1 per extra point, and 3, 4 or 5 per field goal under 40, 40 to 49, or 50+ yards. Sacks and two-point plays are not scored.
 - All 32 teams are in `nfl_teams.json`, with ratings built from 2026 season stats (see below).
 
 Not modeled: penalties, timeouts, two-point conversions, individual defenders, injuries, and the modern overtime rules.
@@ -62,7 +63,7 @@ To put it online for free, the repo includes a GitHub Actions workflow (`.github
 python3 -m unittest discover -s tests -v
 ```
 
-40 tests cover:
+44 tests cover:
 
 - **Repeatability:** the same seed gives the same game, line for line.
 - **Stats add up** over 150 random games: points equal 6 per touchdown plus extra points plus 3 per field goal, quarter scores sum to the final score, receiving yards equal passing yards, and team yards equal rushing plus net passing.
@@ -70,6 +71,7 @@ python3 -m unittest discover -s tests -v
 - **NFL data:** all 32 teams are present, ratings are centered on 70, no duplicate player names within a team, and every team can play a game.
 - **Ratings matter:** a team boosted by 15 rating points wins well over 62% of games.
 - **Bad input and the command line:** unknown teams, the same team twice, lowercase codes, random matchups, `--sims` and `--list`.
+- **Fantasy points:** scoring checked by hand on sample stat lines, each team's fantasy total matches its stat tables, kicker points follow field goal distance, and the 1,000-game view has averages.
 - **The data the web page uses:** the JSON for one game and for 1,000 games matches the engine, player lines add up, and bad input gives plain error messages.
 
 Not covered by these tests: how the page looks and loading Pyodide from the internet. Open the deployed page in a browser after each deploy to check those.

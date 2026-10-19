@@ -257,6 +257,7 @@ class Game:
         self.advance(r.randint(6, 12))
         if r.random() < p:
             ks["fg_made"] += 1
+            ks["fg_fantasy"] += 3 if dist < 40 else 4 if dist < 50 else 5
             ks["fg_long"] = max(ks["fg_long"], dist)
             self.add_points(off.abbr, 3, q)
             self.say(f"{k['name']} {dist}-yd field goal is good")
@@ -447,6 +448,30 @@ def table(title, header, rows):
     return "\n".join([title, fmt(header), *[fmt(r) for r in rows]])
 
 
+# Fantasy scoring (PPR): 1 point per catch, 0.1 per rushing or receiving yard,
+# 0.04 per passing yard, 6 per touchdown (4 for a passing touchdown),
+# -2 per interception or lost fumble, 1 per extra point, and 3/4/5 per field
+# goal under 40 / 40-49 / 50+ yards.
+def fantasy_points(s):
+    """Fantasy points (PPR) for one player's stat dict."""
+    g = s.get
+    pts = (
+        g("pass_yds", 0) * 0.04 + g("pass_td", 0) * 4 - g("interceptions", 0) * 2
+        + g("rush_yds", 0) * 0.1 + g("rush_td", 0) * 6
+        + g("rec", 0) * 1 + g("rec_yds", 0) * 0.1 + g("rec_td", 0) * 6
+        - g("fumbles", 0) * 2
+        + g("xp_made", 0) + g("fg_fantasy", 0)
+    )
+    return round(pts, 1)
+
+
+def fantasy_lines(game, abbr):
+    """Every player who recorded a stat, with fantasy points, best first."""
+    ps = game.pstats[abbr]
+    rows = [{"name": n, "pts": fantasy_points(s)} for n, s in ps.items() if any(s.values())]
+    return sorted(rows, key=lambda r: (-r["pts"], r["name"]))
+
+
 def player_lines(game, abbr):
     """One team's player stat lines as plain data (shared by the CLI and the web page)."""
     team = game.teams[abbr]
@@ -478,6 +503,7 @@ def player_lines(game, abbr):
             "name": team.kicker["name"], "fg_made": k["fg_made"], "fg_att": k["fg_att"],
             "fg_long": k["fg_long"], "xp_made": k["xp_made"], "xp_att": k["xp_att"],
         })
+    lines["fantasy"] = fantasy_lines(game, abbr)
     return lines
 
 
@@ -500,6 +526,9 @@ def player_tables(game, abbr):
         rows = [[p["name"], f"{p['fg_made']}/{p['fg_att']}", p["fg_long"] or "-", f"{p['xp_made']}/{p['xp_att']}"]
                 for p in ln["kicking"]]
         out.append(table(f"{team.name} - kicking", ["Player", "FG", "LONG", "XP"], rows))
+    if ln["fantasy"]:
+        rows = [[p["name"], f"{p['pts']:.1f}"] for p in ln["fantasy"]]
+        out.append(table(f"{team.name} - fantasy points (PPR)", ["Player", "PTS"], rows))
     return out
 
 
@@ -571,10 +600,13 @@ def sims_to_dict(teams, a, b, n, seed):
     pass_y = Counter()
     rush_y = Counter()
     scores = Counter()
+    fantasy = {a: Counter(), b: Counter()}
     for i in range(n):
         g = Game(teams[a], teams[b], seed=seed + i).run()
         wins[g.winner()] += 1
         for k in (a, b):
+            for name, st in g.pstats[k].items():
+                fantasy[k][name] += fantasy_points(st)
             t = g.totals(k)
             pts[k] += g.points[k]
             pass_y[k] += t["pass_yds"]
@@ -593,6 +625,11 @@ def sims_to_dict(teams, a, b, n, seed):
                 "avg_points": pts[k] / n,
                 "avg_pass_yds": pass_y[k] / n,
                 "avg_rush_yds": rush_y[k] / n,
+                "avg_fantasy": [
+                    {"name": name, "pts": round(total / n, 1)}
+                    for name, total in sorted(fantasy[k].items(), key=lambda x: (-x[1], x[0]))
+                    if total > 0
+                ],
             }
             for k in (a, b)
         ],

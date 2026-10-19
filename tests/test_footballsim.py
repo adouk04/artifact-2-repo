@@ -232,6 +232,61 @@ class NflData(unittest.TestCase):
         self.assertGreater(wins / 200, 0.5, wins / 200)
 
 
+class Fantasy(unittest.TestCase):
+    """Fantasy points (PPR) are computed from the same stats the tables show."""
+
+    def test_scoring_by_hand(self):
+        # 281 pass yds (11.24) + 1 TD (4) - 1 INT (2) = 13.24
+        self.assertEqual(fs.fantasy_points({"pass_yds": 281, "pass_td": 1, "interceptions": 1}), 13.2)
+        # 47 rush yds (4.7) + 2 rush TD (12) + 5 catches (5) + 82 rec yds (8.2) = 29.9
+        self.assertEqual(fs.fantasy_points({"rush_yds": 47, "rush_td": 2, "rec": 5, "rec_yds": 82}), 29.9)
+        # a lost fumble costs 2; 2 extra points and a 54-yard field goal (5) = 7
+        self.assertEqual(fs.fantasy_points({"fumbles": 1}), -2.0)
+        self.assertEqual(fs.fantasy_points({"xp_made": 2, "fg_fantasy": 5}), 7.0)
+        self.assertEqual(fs.fantasy_points({}), 0.0)
+
+    def test_game_fantasy_matches_the_stat_lines(self):
+        teams = fs.load_teams(ROOT / "nfl_teams.json")
+        for seed in range(20):
+            g = fs.Game(teams["SEA"], teams["KC"], seed=seed).run()
+            for abbr in g.order:
+                lines = fs.player_lines(g, abbr)
+                by_name = {p["name"]: p["pts"] for p in lines["fantasy"]}
+                self.assertEqual(list(by_name.values()), sorted(by_name.values(), reverse=True))
+                total = sum(by_name.values())
+                base = sum(p["yds"] * 0.04 + p["td"] * 4 - p["int"] * 2 for p in lines["passing"])
+                base += sum(p["yds"] * 0.1 + p["td"] * 6 - p["fum"] * 2 for p in lines["rushing"])
+                base += sum(p["rec"] + p["yds"] * 0.1 + p["td"] * 6 for p in lines["receiving"])
+                k = lines["kicking"][0] if lines["kicking"] else {"xp_made": 0, "fg_made": 0}
+                low = base + k["xp_made"] + 3 * k["fg_made"]
+                high = base + k["xp_made"] + 5 * k["fg_made"]
+                # each player's points are rounded to 0.1, so allow a little slack
+                self.assertGreaterEqual(total, low - 0.8)
+                self.assertLessEqual(total, high + 0.8)
+                self.assertTrue(all(isinstance(v, float) for v in by_name.values()))
+
+    def test_kicker_points_use_distance(self):
+        teams = fs.load_teams(ROOT / "nfl_teams.json")
+        for seed in range(40):
+            g = fs.Game(teams["SEA"], teams["KC"], seed=seed).run()
+            for abbr in g.order:
+                for st in g.pstats[abbr].values():
+                    if st.get("fg_made"):
+                        self.assertGreaterEqual(st["fg_fantasy"], 3 * st["fg_made"])
+                        self.assertLessEqual(st["fg_fantasy"], 5 * st["fg_made"])
+
+    def test_sims_have_average_fantasy_points(self):
+        teams = fs.load_teams(ROOT / "nfl_teams.json")
+        d = json.loads(fs.run_for_web(teams, "SEA", "KC", seed=1, sims=30))
+        for t in d["teams"]:
+            self.assertTrue(t["avg_fantasy"])
+            pts = [p["pts"] for p in t["avg_fantasy"]]
+            self.assertEqual(pts, sorted(pts, reverse=True))
+            self.assertTrue(all(p > 0 for p in pts))
+            # the QB and the top receiver should average real fantasy production
+            self.assertGreater(pts[0], 8)
+
+
 class WebApi(unittest.TestCase):
     """run_for_web() is what the web page calls; it must return clean JSON."""
 
@@ -255,7 +310,7 @@ class WebApi(unittest.TestCase):
     def test_player_lines_are_complete(self):
         d = self.game()
         for t in d["teams"]:
-            self.assertEqual(set(t["players"]), {"passing", "rushing", "receiving", "kicking"})
+            self.assertEqual(set(t["players"]), {"passing", "rushing", "receiving", "kicking", "fantasy"})
             self.assertEqual(len(t["players"]["passing"]), 1)
             self.assertEqual(
                 sum(p["yds"] for p in t["players"]["receiving"]), t["players"]["passing"][0]["yds"]

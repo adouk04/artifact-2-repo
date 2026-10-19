@@ -327,7 +327,12 @@ function playerColumn(team, side) {
     ["Field goals", "Longest", "Extra points"],
     p.kicking.map((x) => [x.name, `${x.fg_made}/${x.fg_att}`, x.fg_long || "none", `${x.xp_made}/${x.xp_att}`])
   );
-  return `<div class="team-col ${side}"><h3>${escapeHtml(team.name)}</h3>${passing}${rushing}${receiving}${kicking}</div>`;
+  const fantasy = playerTable(
+    "Fantasy points (PPR)",
+    ["Points"],
+    p.fantasy.map((x) => [x.name, x.pts.toFixed(1)])
+  );
+  return `<div class="team-col ${side}"><h3>${escapeHtml(team.name)}</h3>${fantasy}${passing}${rushing}${receiving}${kicking}</div>`;
 }
 
 function playByPlay(log) {
@@ -398,6 +403,22 @@ function renderSims(data) {
           <thead><tr><th scope="col">Team</th><th scope="col">Wins</th><th scope="col">Points</th><th scope="col">Passing yards</th><th scope="col">Rushing yards</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
+      </div>
+    </section>
+
+    <section class="block" aria-labelledby="fantasy-heading">
+      <h2 id="fantasy-heading">Average fantasy points per game (PPR)</h2>
+      <div class="players">
+        ${data.teams
+          .map(
+            (t, i) =>
+              `<div class="team-col ${i === 0 ? "a" : "b"}"><h3>${escapeHtml(t.name)}</h3>${playerTable(
+                "Average fantasy points",
+                ["Avg points"],
+                t.avg_fantasy.map((x) => [x.name, x.pts.toFixed(1)])
+              )}</div>`
+          )
+          .join("")}
       </div>
     </section>
 

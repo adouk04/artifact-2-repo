@@ -95,3 +95,15 @@ A running record of what I planned and what changed. Newest entries at the botto
 - **Lesson:** My earlier Node-only test could not catch a browser loading problem. I wrote "not checked" for exactly this in Entry 4; it was the thing that broke. Open the deployed page after every deploy.
 - **Next:** Push, reload the live page, and play a game. Then fill in the portfolio card.
 
+## Entry 7 — Added fantasy points
+
+- **Planned:** Show how many fantasy points each player might score, in one game and on average over many games.
+- **Changed:**
+  - `footballsim.py`: `fantasy_points` and `fantasy_lines`. Scoring is PPR (see the README). The kicker's field goal points depend on distance (3, 4 or 5), so the engine now records that when a field goal is made. This does not use the random number generator, so games are unchanged (seed 4, SEA vs KC is still 24-17).
+  - Single game: a "Fantasy points (PPR)" table for each team, best player first, on the web page and in the command line output.
+  - 1,000 games: each player's average fantasy points per game (web page, and in the JSON for `--sims`).
+  - `app.js` draws the new tables. 4 new tests (40 to 44).
+- **How I checked it:** Worked two stat lines by hand and compared with the output (Kenneth Walker 47 rush yards, 2 TD, 5 catches for 82 yards is 29.9; Harrison Butker 2 extra points and a 54-yard field goal is 7.0). A test checks each team's fantasy total against its stat tables over 20 games. The jsdom page test checks both new tables.
+- **Limits:** Defense and special teams are not scored, a sack costs the quarterback nothing, and there are no two-point plays. Fantasy points are only as good as the player ratings, which are my own estimates.
+- **Next:** Push, reload the live page, and play a game.
+

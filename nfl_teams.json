@@ -1,0 +1,1605 @@
+{
+ "source": "Starters: fantasynerds.com depth charts (checked against Ourlads). Team stats: NFL.com 2026 regular season, captured Oct 18, 2026. Ratings are unofficial estimates; see tools/build_nfl_teams.py.",
+ "teams": {
+  "ARI": {
+   "name": "Arizona Cardinals",
+   "pass_block": 74,
+   "run_block": 65,
+   "pass_rush": 73,
+   "pass_defense": 61,
+   "run_defense": 68,
+   "players": {
+    "qb": {
+     "name": "Jacoby Brissett",
+     "rating": 63
+    },
+    "rbs": [
+     {
+      "name": "Jeremiyah Love",
+      "rating": 73
+     },
+     {
+      "name": "Tyler Allgeier",
+      "rating": 68
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Michael Wilson",
+      "rating": 69,
+      "pos": "WR"
+     },
+     {
+      "name": "Kendrick Bourne",
+      "rating": 66,
+      "pos": "WR"
+     },
+     {
+      "name": "Jalen Brooks",
+      "rating": 63,
+      "pos": "WR"
+     },
+     {
+      "name": "Trey McBride",
+      "rating": 86,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Chad Ryland",
+     "rating": 76
+    }
+   }
+  },
+  "ATL": {
+   "name": "Atlanta Falcons",
+   "pass_block": 64,
+   "run_block": 79,
+   "pass_rush": 68,
+   "pass_defense": 69,
+   "run_defense": 76,
+   "players": {
+    "qb": {
+     "name": "Michael Penix Jr.",
+     "rating": 73
+    },
+    "rbs": [
+     {
+      "name": "Bijan Robinson",
+      "rating": 88
+     },
+     {
+      "name": "Brian Robinson Jr.",
+      "rating": 69
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Drake London",
+      "rating": 83,
+      "pos": "WR"
+     },
+     {
+      "name": "Jahan Dotson",
+      "rating": 70,
+      "pos": "WR"
+     },
+     {
+      "name": "Olamide Zaccheaus",
+      "rating": 67,
+      "pos": "WR"
+     },
+     {
+      "name": "Kyle Pitts",
+      "rating": 76,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Nick Folk",
+     "rating": 74
+    }
+   }
+  },
+  "BAL": {
+   "name": "Baltimore Ravens",
+   "pass_block": 67,
+   "run_block": 78,
+   "pass_rush": 72,
+   "pass_defense": 70,
+   "run_defense": 74,
+   "players": {
+    "qb": {
+     "name": "Lamar Jackson",
+     "rating": 87
+    },
+    "rbs": [
+     {
+      "name": "Derrick Henry",
+      "rating": 83
+     },
+     {
+      "name": "Justice Hill",
+      "rating": 69
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Rashod Bateman",
+      "rating": 76,
+      "pos": "WR"
+     },
+     {
+      "name": "Ja'Kobi Lane",
+      "rating": 72,
+      "pos": "WR"
+     },
+     {
+      "name": "Zay Flowers",
+      "rating": 82,
+      "pos": "WR"
+     },
+     {
+      "name": "Mark Andrews",
+      "rating": 78,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Tyler Loop",
+     "rating": 78
+    }
+   }
+  },
+  "BUF": {
+   "name": "Buffalo Bills",
+   "pass_block": 69,
+   "run_block": 79,
+   "pass_rush": 64,
+   "pass_defense": 66,
+   "run_defense": 73,
+   "players": {
+    "qb": {
+     "name": "Josh Allen",
+     "rating": 90
+    },
+    "rbs": [
+     {
+      "name": "James Cook",
+      "rating": 82
+     },
+     {
+      "name": "Ray Davis",
+      "rating": 69
+     }
+    ],
+    "receivers": [
+     {
+      "name": "D.J. Moore",
+      "rating": 80,
+      "pos": "WR"
+     },
+     {
+      "name": "Josh Palmer",
+      "rating": 73,
+      "pos": "WR"
+     },
+     {
+      "name": "Khalil Shakir",
+      "rating": 80,
+      "pos": "WR"
+     },
+     {
+      "name": "Dalton Kincaid",
+      "rating": 75,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Tyler Bass",
+     "rating": 80
+    }
+   }
+  },
+  "CAR": {
+   "name": "Carolina Panthers",
+   "pass_block": 72,
+   "run_block": 71,
+   "pass_rush": 67,
+   "pass_defense": 73,
+   "run_defense": 60,
+   "players": {
+    "qb": {
+     "name": "Bryce Young",
+     "rating": 72
+    },
+    "rbs": [
+     {
+      "name": "Chuba Hubbard",
+      "rating": 73
+     },
+     {
+      "name": "AJ Dillon",
+      "rating": 66
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Tetairoa McMillan",
+      "rating": 79,
+      "pos": "WR"
+     },
+     {
+      "name": "Brycen Tremayne",
+      "rating": 70,
+      "pos": "WR"
+     },
+     {
+      "name": "Jalen Coker",
+      "rating": 67,
+      "pos": "WR"
+     },
+     {
+      "name": "Tommy Tremble",
+      "rating": 68,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Ryan Fitzgerald",
+     "rating": 74
+    }
+   }
+  },
+  "CHI": {
+   "name": "Chicago Bears",
+   "pass_block": 69,
+   "run_block": 73,
+   "pass_rush": 79,
+   "pass_defense": 62,
+   "run_defense": 67,
+   "players": {
+    "qb": {
+     "name": "Caleb Williams",
+     "rating": 73
+    },
+    "rbs": [
+     {
+      "name": "D'Andre Swift",
+      "rating": 75
+     },
+     {
+      "name": "Kyle Monangai",
+      "rating": 67
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Rome Odunze",
+      "rating": 78,
+      "pos": "WR"
+     },
+     {
+      "name": "Luther Burden",
+      "rating": 69,
+      "pos": "WR"
+     },
+     {
+      "name": "Kalif Raymond",
+      "rating": 66,
+      "pos": "WR"
+     },
+     {
+      "name": "Colston Loveland",
+      "rating": 76,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Cairo Santos",
+     "rating": 78
+    }
+   }
+  },
+  "CIN": {
+   "name": "Cincinnati Bengals",
+   "pass_block": 75,
+   "run_block": 65,
+   "pass_rush": 78,
+   "pass_defense": 68,
+   "run_defense": 61,
+   "players": {
+    "qb": {
+     "name": "Joe Burrow",
+     "rating": 81
+    },
+    "rbs": [
+     {
+      "name": "Chase Brown",
+      "rating": 72
+     },
+     {
+      "name": "Samaje Perine",
+      "rating": 64
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Ja'Marr Chase",
+      "rating": 87,
+      "pos": "WR"
+     },
+     {
+      "name": "Tee Higgins",
+      "rating": 80,
+      "pos": "WR"
+     },
+     {
+      "name": "Mitchell Tinsley",
+      "rating": 66,
+      "pos": "WR"
+     },
+     {
+      "name": "Drew Sample",
+      "rating": 66,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Evan McPherson",
+     "rating": 82
+    }
+   }
+  },
+  "CLE": {
+   "name": "Cleveland Browns",
+   "pass_block": 56,
+   "run_block": 65,
+   "pass_rush": 76,
+   "pass_defense": 72,
+   "run_defense": 68,
+   "players": {
+    "qb": {
+     "name": "Deshaun Watson",
+     "rating": 65
+    },
+    "rbs": [
+     {
+      "name": "Quinshon Judkins",
+      "rating": 72
+     },
+     {
+      "name": "Raheim Sanders",
+      "rating": 64
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Denzel Boston",
+      "rating": 71,
+      "pos": "WR"
+     },
+     {
+      "name": "Jerry Jeudy",
+      "rating": 73,
+      "pos": "WR"
+     },
+     {
+      "name": "KC Concepcion",
+      "rating": 65,
+      "pos": "WR"
+     },
+     {
+      "name": "Harold Fannin",
+      "rating": 75,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Andre Szmyt",
+     "rating": 74
+    }
+   }
+  },
+  "DAL": {
+   "name": "Dallas Cowboys",
+   "pass_block": 79,
+   "run_block": 67,
+   "pass_rush": 61,
+   "pass_defense": 60,
+   "run_defense": 60,
+   "players": {
+    "qb": {
+     "name": "Dak Prescott",
+     "rating": 77
+    },
+    "rbs": [
+     {
+      "name": "Javonte Williams",
+      "rating": 71
+     },
+     {
+      "name": "Tyler Goodson",
+      "rating": 65
+     }
+    ],
+    "receivers": [
+     {
+      "name": "CeeDee Lamb",
+      "rating": 86,
+      "pos": "WR"
+     },
+     {
+      "name": "George Pickens",
+      "rating": 80,
+      "pos": "WR"
+     },
+     {
+      "name": "Ryan Flournoy",
+      "rating": 66,
+      "pos": "WR"
+     },
+     {
+      "name": "Jake Ferguson",
+      "rating": 74,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Brandon Aubrey",
+     "rating": 92
+    }
+   }
+  },
+  "DEN": {
+   "name": "Denver Broncos",
+   "pass_block": 76,
+   "run_block": 63,
+   "pass_rush": 74,
+   "pass_defense": 75,
+   "run_defense": 65,
+   "players": {
+    "qb": {
+     "name": "Bo Nix",
+     "rating": 69
+    },
+    "rbs": [
+     {
+      "name": "J.K. Dobbins",
+      "rating": 72
+     },
+     {
+      "name": "RJ Harvey",
+      "rating": 64
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Courtland Sutton",
+      "rating": 74,
+      "pos": "WR"
+     },
+     {
+      "name": "Jaylen Waddle",
+      "rating": 75,
+      "pos": "WR"
+     },
+     {
+      "name": "Troy Franklin",
+      "rating": 63,
+      "pos": "WR"
+     },
+     {
+      "name": "Evan Engram",
+      "rating": 73,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Wil Lutz",
+     "rating": 78
+    }
+   }
+  },
+  "DET": {
+   "name": "Detroit Lions",
+   "pass_block": 73,
+   "run_block": 73,
+   "pass_rush": 77,
+   "pass_defense": 66,
+   "run_defense": 69,
+   "players": {
+    "qb": {
+     "name": "Jared Goff",
+     "rating": 79
+    },
+    "rbs": [
+     {
+      "name": "Jahmyr Gibbs",
+      "rating": 86
+     },
+     {
+      "name": "Sione Vaki",
+      "rating": 67
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Isaac TeSlaa",
+      "rating": 74,
+      "pos": "WR"
+     },
+     {
+      "name": "Jameson Williams",
+      "rating": 79,
+      "pos": "WR"
+     },
+     {
+      "name": "Amon-Ra St. Brown",
+      "rating": 86,
+      "pos": "WR"
+     },
+     {
+      "name": "Sam LaPorta",
+      "rating": 80,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Jake Bates",
+     "rating": 82
+    }
+   }
+  },
+  "GB": {
+   "name": "Green Bay Packers",
+   "pass_block": 74,
+   "run_block": 59,
+   "pass_rush": 75,
+   "pass_defense": 78,
+   "run_defense": 71,
+   "players": {
+    "qb": {
+     "name": "Jordan Love",
+     "rating": 79
+    },
+    "rbs": [
+     {
+      "name": "MarShawn Lloyd",
+      "rating": 66
+     },
+     {
+      "name": "Kaleb Johnson",
+      "rating": 62
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Christian Watson",
+      "rating": 75,
+      "pos": "WR"
+     },
+     {
+      "name": "Matthew Golden",
+      "rating": 70,
+      "pos": "WR"
+     },
+     {
+      "name": "Skyy Moore",
+      "rating": 67,
+      "pos": "WR"
+     },
+     {
+      "name": "Tucker Kraft",
+      "rating": 77,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Trey Smack",
+     "rating": 74
+    }
+   }
+  },
+  "HOU": {
+   "name": "Houston Texans",
+   "pass_block": 71,
+   "run_block": 64,
+   "pass_rush": 74,
+   "pass_defense": 67,
+   "run_defense": 78,
+   "players": {
+    "qb": {
+     "name": "C.J. Stroud",
+     "rating": 76
+    },
+    "rbs": [
+     {
+      "name": "David Montgomery",
+      "rating": 71
+     },
+     {
+      "name": "Woody Marks",
+      "rating": 64
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Nico Collins",
+      "rating": 85,
+      "pos": "WR"
+     },
+     {
+      "name": "Marvin Harrison Jr.",
+      "rating": 78,
+      "pos": "WR"
+     },
+     {
+      "name": "Jaylin Noel",
+      "rating": 68,
+      "pos": "WR"
+     },
+     {
+      "name": "Dalton Schultz",
+      "rating": 73,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Ka'imi Fairbairn",
+     "rating": 80
+    }
+   }
+  },
+  "IND": {
+   "name": "Indianapolis Colts",
+   "pass_block": 70,
+   "run_block": 69,
+   "pass_rush": 66,
+   "pass_defense": 65,
+   "run_defense": 64,
+   "players": {
+    "qb": {
+     "name": "Daniel Jones",
+     "rating": 65
+    },
+    "rbs": [
+     {
+      "name": "Jonathan Taylor",
+      "rating": 83
+     },
+     {
+      "name": "DJ Giddens",
+      "rating": 66
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Ashton Dulin",
+      "rating": 70,
+      "pos": "WR"
+     },
+     {
+      "name": "Keenan Allen",
+      "rating": 70,
+      "pos": "WR"
+     },
+     {
+      "name": "Josh Downs",
+      "rating": 64,
+      "pos": "WR"
+     },
+     {
+      "name": "Tyler Warren",
+      "rating": 78,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Spencer Shrader",
+     "rating": 74
+    }
+   }
+  },
+  "JAX": {
+   "name": "Jacksonville Jaguars",
+   "pass_block": 74,
+   "run_block": 69,
+   "pass_rush": 66,
+   "pass_defense": 67,
+   "run_defense": 80,
+   "players": {
+    "qb": {
+     "name": "Trevor Lawrence",
+     "rating": 77
+    },
+    "rbs": [
+     {
+      "name": "Bhayshul Tuten",
+      "rating": 70
+     },
+     {
+      "name": "Chris Rodriguez",
+      "rating": 66
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Brian Thomas Jr.",
+      "rating": 82,
+      "pos": "WR"
+     },
+     {
+      "name": "Jakobi Meyers",
+      "rating": 77,
+      "pos": "WR"
+     },
+     {
+      "name": "Parker Washington",
+      "rating": 68,
+      "pos": "WR"
+     },
+     {
+      "name": "Brenton Strange",
+      "rating": 68,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Cam Little",
+     "rating": 86
+    }
+   }
+  },
+  "KC": {
+   "name": "Kansas City Chiefs",
+   "pass_block": 75,
+   "run_block": 84,
+   "pass_rush": 59,
+   "pass_defense": 75,
+   "run_defense": 76,
+   "players": {
+    "qb": {
+     "name": "Patrick Mahomes",
+     "rating": 85
+    },
+    "rbs": [
+     {
+      "name": "Kenneth Walker",
+      "rating": 83
+     },
+     {
+      "name": "Emmett Johnson",
+      "rating": 71
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Jalen Royals",
+      "rating": 74,
+      "pos": "WR"
+     },
+     {
+      "name": "Xavier Worthy",
+      "rating": 77,
+      "pos": "WR"
+     },
+     {
+      "name": "Rashee Rice",
+      "rating": 80,
+      "pos": "WR"
+     },
+     {
+      "name": "Travis Kelce",
+      "rating": 78,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Harrison Butker",
+     "rating": 84
+    }
+   }
+  },
+  "LV": {
+   "name": "Las Vegas Raiders",
+   "pass_block": 76,
+   "run_block": 59,
+   "pass_rush": 72,
+   "pass_defense": 65,
+   "run_defense": 59,
+   "players": {
+    "qb": {
+     "name": "Kirk Cousins",
+     "rating": 68
+    },
+    "rbs": [
+     {
+      "name": "Ashton Jeanty",
+      "rating": 75
+     },
+     {
+      "name": "Mike Washington Jr.",
+      "rating": 62
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Tre Tucker",
+      "rating": 73,
+      "pos": "WR"
+     },
+     {
+      "name": "Jalen Nailor",
+      "rating": 70,
+      "pos": "WR"
+     },
+     {
+      "name": "Dareke Young",
+      "rating": 67,
+      "pos": "WR"
+     },
+     {
+      "name": "Brock Bowers",
+      "rating": 86,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Matt Gay",
+     "rating": 76
+    }
+   }
+  },
+  "LAC": {
+   "name": "Los Angeles Chargers",
+   "pass_block": 60,
+   "run_block": 71,
+   "pass_rush": 73,
+   "pass_defense": 70,
+   "run_defense": 74,
+   "players": {
+    "qb": {
+     "name": "Justin Herbert",
+     "rating": 75
+    },
+    "rbs": [
+     {
+      "name": "Omarion Hampton",
+      "rating": 76
+     },
+     {
+      "name": "Keaton Mitchell",
+      "rating": 66
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Quentin Johnston",
+      "rating": 73,
+      "pos": "WR"
+     },
+     {
+      "name": "Tre Harris",
+      "rating": 68,
+      "pos": "WR"
+     },
+     {
+      "name": "Ladd McConkey",
+      "rating": 79,
+      "pos": "WR"
+     },
+     {
+      "name": "Charlie Kolar",
+      "rating": 68,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Cameron Dicker",
+     "rating": 82
+    }
+   }
+  },
+  "LAR": {
+   "name": "Los Angeles Rams",
+   "pass_block": 77,
+   "run_block": 74,
+   "pass_rush": 63,
+   "pass_defense": 78,
+   "run_defense": 66,
+   "players": {
+    "qb": {
+     "name": "Matthew Stafford",
+     "rating": 78
+    },
+    "rbs": [
+     {
+      "name": "Kyren Williams",
+      "rating": 74
+     },
+     {
+      "name": "Blake Corum",
+      "rating": 67
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Davante Adams",
+      "rating": 79,
+      "pos": "WR"
+     },
+     {
+      "name": "Puka Nacua",
+      "rating": 87,
+      "pos": "WR"
+     },
+     {
+      "name": "Jordan Whittington",
+      "rating": 66,
+      "pos": "WR"
+     },
+     {
+      "name": "Colby Parkinson",
+      "rating": 68,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Harrison Mevis",
+     "rating": 74
+    }
+   }
+  },
+  "MIA": {
+   "name": "Miami Dolphins",
+   "pass_block": 62,
+   "run_block": 77,
+   "pass_rush": 59,
+   "pass_defense": 66,
+   "run_defense": 75,
+   "players": {
+    "qb": {
+     "name": "Malik Willis",
+     "rating": 66
+    },
+    "rbs": [
+     {
+      "name": "Ollie Gordon",
+      "rating": 72
+     },
+     {
+      "name": "Jaylen Wright",
+      "rating": 68
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Chris Bell",
+      "rating": 71,
+      "pos": "WR"
+     },
+     {
+      "name": "Caleb Douglas",
+      "rating": 68,
+      "pos": "WR"
+     },
+     {
+      "name": "Malik Washington",
+      "rating": 65,
+      "pos": "WR"
+     },
+     {
+      "name": "Greg Dulcich",
+      "rating": 68,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Riley Patterson",
+     "rating": 74
+    }
+   }
+  },
+  "MIN": {
+   "name": "Minnesota Vikings",
+   "pass_block": 62,
+   "run_block": 67,
+   "pass_rush": 80,
+   "pass_defense": 77,
+   "run_defense": 72,
+   "players": {
+    "qb": {
+     "name": "Kyler Murray",
+     "rating": 74
+    },
+    "rbs": [
+     {
+      "name": "Aaron Jones",
+      "rating": 73
+     },
+     {
+      "name": "DeeJay Dallas",
+      "rating": 65
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Justin Jefferson",
+      "rating": 86,
+      "pos": "WR"
+     },
+     {
+      "name": "Jordan Addison",
+      "rating": 73,
+      "pos": "WR"
+     },
+     {
+      "name": "Jauan Jennings",
+      "rating": 73,
+      "pos": "WR"
+     },
+     {
+      "name": "T.J. Hockenson",
+      "rating": 77,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Will Reichard",
+     "rating": 78
+    }
+   }
+  },
+  "NE": {
+   "name": "New England Patriots",
+   "pass_block": 73,
+   "run_block": 71,
+   "pass_rush": 71,
+   "pass_defense": 69,
+   "run_defense": 72,
+   "players": {
+    "qb": {
+     "name": "Drake Maye",
+     "rating": 79
+    },
+    "rbs": [
+     {
+      "name": "Rhamondre Stevenson",
+      "rating": 71
+     },
+     {
+      "name": "TreVeyon Henderson",
+      "rating": 73
+     }
+    ],
+    "receivers": [
+     {
+      "name": "A.J. Brown",
+      "rating": 85,
+      "pos": "WR"
+     },
+     {
+      "name": "Romeo Doubs",
+      "rating": 71,
+      "pos": "WR"
+     },
+     {
+      "name": "Demario Douglas",
+      "rating": 68,
+      "pos": "WR"
+     },
+     {
+      "name": "Hunter Henry",
+      "rating": 75,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Andres Borregales",
+     "rating": 74
+    }
+   }
+  },
+  "NO": {
+   "name": "New Orleans Saints",
+   "pass_block": 73,
+   "run_block": 67,
+   "pass_rush": 72,
+   "pass_defense": 66,
+   "run_defense": 63,
+   "players": {
+    "qb": {
+     "name": "Tyler Shough",
+     "rating": 66
+    },
+    "rbs": [
+     {
+      "name": "Travis Etienne",
+      "rating": 73
+     },
+     {
+      "name": "Alvin Kamara",
+      "rating": 71
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Bryce Lance",
+      "rating": 70,
+      "pos": "WR"
+     },
+     {
+      "name": "Chris Olave",
+      "rating": 75,
+      "pos": "WR"
+     },
+     {
+      "name": "Devaughn Vele",
+      "rating": 64,
+      "pos": "WR"
+     },
+     {
+      "name": "Juwan Johnson",
+      "rating": 68,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Daniel Carlson",
+     "rating": 82
+    }
+   }
+  },
+  "NYG": {
+   "name": "New York Giants",
+   "pass_block": 67,
+   "run_block": 66,
+   "pass_rush": 63,
+   "pass_defense": 76,
+   "run_defense": 61,
+   "players": {
+    "qb": {
+     "name": "Jameis Winston",
+     "rating": 65
+    },
+    "rbs": [
+     {
+      "name": "Cam Skattebo",
+      "rating": 73
+     },
+     {
+      "name": "Najee Harris",
+      "rating": 65
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Malik Nabers",
+      "rating": 81,
+      "pos": "WR"
+     },
+     {
+      "name": "Malachi Fields",
+      "rating": 68,
+      "pos": "WR"
+     },
+     {
+      "name": "Darnell Mooney",
+      "rating": 65,
+      "pos": "WR"
+     },
+     {
+      "name": "Isaiah Likely",
+      "rating": 73,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Dominic Zvada",
+     "rating": 77
+    }
+   }
+  },
+  "NYJ": {
+   "name": "New York Jets",
+   "pass_block": 62,
+   "run_block": 64,
+   "pass_rush": 75,
+   "pass_defense": 71,
+   "run_defense": 70,
+   "players": {
+    "qb": {
+     "name": "Geno Smith",
+     "rating": 71
+    },
+    "rbs": [
+     {
+      "name": "Breece Hall",
+      "rating": 74
+     },
+     {
+      "name": "Braelon Allen",
+      "rating": 64
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Garrett Wilson",
+      "rating": 81,
+      "pos": "WR"
+     },
+     {
+      "name": "Adonai Mitchell",
+      "rating": 70,
+      "pos": "WR"
+     },
+     {
+      "name": "Isaiah Williams",
+      "rating": 67,
+      "pos": "WR"
+     },
+     {
+      "name": "Mason Taylor",
+      "rating": 72,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Jason Sanders",
+     "rating": 78
+    }
+   }
+  },
+  "PHI": {
+   "name": "Philadelphia Eagles",
+   "pass_block": 68,
+   "run_block": 65,
+   "pass_rush": 61,
+   "pass_defense": 69,
+   "run_defense": 72,
+   "players": {
+    "qb": {
+     "name": "Jalen Hurts",
+     "rating": 73
+    },
+    "rbs": [
+     {
+      "name": "Saquon Barkley",
+      "rating": 82
+     },
+     {
+      "name": "Will Shipley",
+      "rating": 64
+     }
+    ],
+    "receivers": [
+     {
+      "name": "DeVonta Smith",
+      "rating": 77,
+      "pos": "WR"
+     },
+     {
+      "name": "Dontayvion Wicks",
+      "rating": 66,
+      "pos": "WR"
+     },
+     {
+      "name": "Makai Lemon",
+      "rating": 63,
+      "pos": "WR"
+     },
+     {
+      "name": "Dallas Goedert",
+      "rating": 76,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Jake Elliott",
+     "rating": 80
+    }
+   }
+  },
+  "PIT": {
+   "name": "Pittsburgh Steelers",
+   "pass_block": 68,
+   "run_block": 74,
+   "pass_rush": 73,
+   "pass_defense": 74,
+   "run_defense": 71,
+   "players": {
+    "qb": {
+     "name": "Aaron Rodgers",
+     "rating": 70
+    },
+    "rbs": [
+     {
+      "name": "Jaylen Warren",
+      "rating": 74
+     },
+     {
+      "name": "Rico Dowdle",
+      "rating": 67
+     }
+    ],
+    "receivers": [
+     {
+      "name": "DK Metcalf",
+      "rating": 76,
+      "pos": "WR"
+     },
+     {
+      "name": "Ben Skowronek",
+      "rating": 67,
+      "pos": "WR"
+     },
+     {
+      "name": "Roman Wilson",
+      "rating": 64,
+      "pos": "WR"
+     },
+     {
+      "name": "Pat Freiermuth",
+      "rating": 75,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Chris Boswell",
+     "rating": 84
+    }
+   }
+  },
+  "SF": {
+   "name": "San Francisco 49ers",
+   "pass_block": 81,
+   "run_block": 75,
+   "pass_rush": 69,
+   "pass_defense": 74,
+   "run_defense": 75,
+   "players": {
+    "qb": {
+     "name": "Brock Purdy",
+     "rating": 80
+    },
+    "rbs": [
+     {
+      "name": "Christian McCaffrey",
+      "rating": 82
+     },
+     {
+      "name": "Kaelon Black",
+      "rating": 68
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Mike Evans",
+      "rating": 81,
+      "pos": "WR"
+     },
+     {
+      "name": "Jacob Cowing",
+      "rating": 72,
+      "pos": "WR"
+     },
+     {
+      "name": "Deebo Samuel",
+      "rating": 76,
+      "pos": "WR"
+     },
+     {
+      "name": "George Kittle",
+      "rating": 84,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Eddy Pineiro",
+     "rating": 74
+    }
+   }
+  },
+  "SEA": {
+   "name": "Seattle Seahawks",
+   "pass_block": 68,
+   "run_block": 68,
+   "pass_rush": 75,
+   "pass_defense": 83,
+   "run_defense": 77,
+   "players": {
+    "qb": {
+     "name": "Sam Darnold",
+     "rating": 75
+    },
+    "rbs": [
+     {
+      "name": "Emanuel Wilson",
+      "rating": 69
+     },
+     {
+      "name": "George Holani",
+      "rating": 65
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Jaxon Smith-Njigba",
+      "rating": 87,
+      "pos": "WR"
+     },
+     {
+      "name": "Rashid Shaheed",
+      "rating": 70,
+      "pos": "WR"
+     },
+     {
+      "name": "Cooper Kupp",
+      "rating": 75,
+      "pos": "WR"
+     },
+     {
+      "name": "AJ Barner",
+      "rating": 68,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Jason Myers",
+     "rating": 78
+    }
+   }
+  },
+  "TB": {
+   "name": "Tampa Bay Buccaneers",
+   "pass_block": 61,
+   "run_block": 76,
+   "pass_rush": 65,
+   "pass_defense": 73,
+   "run_defense": 78,
+   "players": {
+    "qb": {
+     "name": "Baker Mayfield",
+     "rating": 70
+    },
+    "rbs": [
+     {
+      "name": "Bucky Irving",
+      "rating": 77
+     },
+     {
+      "name": "Kenneth Gainwell",
+      "rating": 68
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Emeka Egbuka",
+      "rating": 75,
+      "pos": "WR"
+     },
+     {
+      "name": "Ted Hurst",
+      "rating": 66,
+      "pos": "WR"
+     },
+     {
+      "name": "Chris Godwin",
+      "rating": 63,
+      "pos": "WR"
+     },
+     {
+      "name": "Cade Otton",
+      "rating": 68,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Chase McLaughlin",
+     "rating": 80
+    }
+   }
+  },
+  "TEN": {
+   "name": "Tennessee Titans",
+   "pass_block": 73,
+   "run_block": 67,
+   "pass_rush": 74,
+   "pass_defense": 67,
+   "run_defense": 73,
+   "players": {
+    "qb": {
+     "name": "Cam Ward",
+     "rating": 64
+    },
+    "rbs": [
+     {
+      "name": "Tony Pollard",
+      "rating": 71
+     },
+     {
+      "name": "Tyjae Spears",
+      "rating": 65
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Carnell Tate",
+      "rating": 69,
+      "pos": "WR"
+     },
+     {
+      "name": "Calvin Ridley",
+      "rating": 71,
+      "pos": "WR"
+     },
+     {
+      "name": "Wan'Dale Robinson",
+      "rating": 63,
+      "pos": "WR"
+     },
+     {
+      "name": "Gunnar Helm",
+      "rating": 68,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Joey Slye",
+     "rating": 74
+    }
+   }
+  },
+  "WAS": {
+   "name": "Washington Commanders",
+   "pass_block": 72,
+   "run_block": 76,
+   "pass_rush": 64,
+   "pass_defense": 69,
+   "run_defense": 73,
+   "players": {
+    "qb": {
+     "name": "Jayden Daniels",
+     "rating": 74
+    },
+    "rbs": [
+     {
+      "name": "Jacory Croskey-Merritt",
+      "rating": 72
+     },
+     {
+      "name": "Rachaad White",
+      "rating": 68
+     }
+    ],
+    "receivers": [
+     {
+      "name": "Terry McLaurin",
+      "rating": 77,
+      "pos": "WR"
+     },
+     {
+      "name": "Dyami Brown",
+      "rating": 67,
+      "pos": "WR"
+     },
+     {
+      "name": "Stefon Diggs",
+      "rating": 70,
+      "pos": "WR"
+     },
+     {
+      "name": "Chigoziem Okonkwo",
+      "rating": 68,
+      "pos": "TE"
+     }
+    ],
+    "kicker": {
+     "name": "Drew Stevens",
+     "rating": 74
+    }
+   }
+  }
+ }
+}
